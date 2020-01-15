@@ -1,0 +1,20 @@
+class Phrase:
+    def __init__(self, phrase):
+        self.phrase = [Character(class) for letter in phrase]
+
+    def check_characters(self):
+        return all(item in correct_guesses for item in self.phrase)
+
+
+    def guess():
+        new = []
+        convert_phrase = phrase()
+        for letter in convert_phrase:
+            if letter in correct_guessed:
+                new.append(letter)
+            else:
+                new.append(" _")
+        new_word = "".join(new)
+        print(new_word)
+
+
