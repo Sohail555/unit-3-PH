@@ -1,0 +1,85 @@
+import random
+
+from phrase import Phrase
+from character import Character
+
+words = ["The Best of Both Worlds", "Speak of the devil", "See eye to eye",
+         "Once in a blue moon", "When pigs fly", "‘To add insult to injury",
+         "You can’t judge a book by its cover"]
+
+class Game:
+    def __init__(self, phrases):
+        self.phrases = phrases
+        self.lives = 5
+        self.wrong_guessed = []
+        self.correct_guessed = []
+
+#Grab the chosen word
+    def chosen_word():
+        word = random.choice(words)
+        return word
+
+# turn the chosern word into a list
+    def phrase():
+        selected_word = chosen_word()
+        word_list = list(selected_word)
+        return word_list
+
+# turn the chosen word into len
+    def len_word():
+        length = chosen_word()
+        number_of_words = length.split()
+        return len(number_of_words)
+
+    def won():
+        won_word = phrase()
+        return all(item in correct_guessed for item in won_word)
+
+    def lost():
+        return lives == 1
+
+    def guess():
+        new = []
+        convert_phrase = phrase()
+        for letter in convert_phrase:
+            if letter in correct_guessed:
+                new.append(letter)
+            else:
+                new.append(" _")
+        new_word = "".join(new)
+        print(new_word)
+
+    def start_game():
+        print("""Welcome to Phrase Hunters\nYou have to guess the phrase before you ran out of lives""")
+        print(f"You have {lives} lives............Lets Begin!")
+
+    start_game()
+    while True:
+        guess()
+        print(f"You have {lives} lives and your phrase has {len_word()} words ")
+        guess_letter = input("Guess a letter: ").lower()
+        if won():
+            print(print("Congratulations you have Won"))
+            print("".join())
+            break
+        elif lost():
+            print("Sorry you have lost")
+            break
+        elif len(guess_letter) != 1:
+            print("You can only guess a single letter!")
+        elif not isinstance(guess_letter, str):
+            print("You can only guess letters!")
+        elif guess_letter in correct_guessed:
+            print(f"You've already guessed {guess_letter}. Try again!")
+        elif guess_letter in wrong_guessed:
+            print(f"You've already guessed {guess_letter}. Try again!")
+        elif guess_letter not in phrase():
+            print(f"Sorry {guess_letter} is not in the Phrase")
+            wrong_guessed.append(guess_letter)
+            lives -= 1
+        else:
+            # guess_letter in phrase():
+            print(f"Correct the letter {guess_letter} is in the Phrase")
+            correct_guessed.append(guess_letter)
+
+    print("Thanks for Playing")
