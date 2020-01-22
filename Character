@@ -3,16 +3,14 @@ class Character:
         self.orignal = orignal
         self.was_guessed = was_guessed
 
-
-    def given_character(self):
-        for item in self.was_guessed:
-            if item == self.orignal:
-                return True
-            else:
-                return False
+    def character_match(self, guess):
+        if guess == self.original:
+            self.was_guessed = True
 
     def complie(self):
         if self.was_guessed:
             return self.original
         else:
             return "_"
+
+
