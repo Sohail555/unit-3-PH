@@ -1,0 +1,111 @@
+import random
+
+import phrase
+
+class Game:
+
+    def __init__(self, words):
+        self.words = words
+        self.lives = None
+        self.phrase_obj = None
+
+
+#Grab the chosen word
+    def chosen_word(self):
+        word = random.choice(self.words)
+        return word.lower()
+
+# turn the chosen word into len
+    def len_word(self, word):
+        number_of_words = word.split()
+        return len(number_of_words)
+
+
+    def won(self, letters):
+        if self.phrase_obj.check_characters(letters) == True:
+            return True
+        else:
+            return False
+
+
+    def start_game(self):
+        print("""Welcome to Phrase Hunters\nYou have to guess the phrase before you ran out of lives""")
+        print('''Note: It may contain "'" and "-" aswell.''')
+        print(f"You have 5 lives............Lets Begin!")
+        self.lives=5
+        # phrase choose
+        word_picked = self.chosen_word()
+        # choose len
+        total_words = self.len_word(word_picked)
+        print(f"You have {self.lives} lives and your phrase has {total_words} words ")
+        # word
+        phrase_list = list(word_picked)
+        # picked the chosen word and sent to phrase class, for it to be broken down into list of charcter object
+        self.phrase_obj = phrase.Phrase(phrase_list)
+        # creating a new variable  so i can i call it instead of phrase_obj.phrase,...
+        # ...this will gives the objects in a form of a list
+        charcter_obj_list = self.phrase_obj.phrase
+        #when pigs fly
+        #['w','h','e','n',' ',....]
+
+        # this will show before the while loop begins, the phrase of words represented in underscore
+        for charcterObj in charcter_obj_list:
+            print(charcterObj.compile(), end=' ')
+        print("\nNow you can guess the words...\n")
+
+        # this put the phrase letters into a set, works with compile and won functions
+        letters = set(phrase_list)
+
+        letters_dict = dict()
+        #letters_dict = {'a':[0], 'p':[1,2], 'l':[3], 'e':[4]} - the word apple used in this example
+
+        for letter in letters:
+            letters_dict[letter] = list()
+            for ind,alphabet in enumerate(phrase_list):
+                if letter == alphabet:
+                    letters_dict[alphabet].append(ind)
+
+        play_Game = True
+
+        while play_Game:
+
+            guess_letter = input("\nGuess a letter: ").lower()
+
+
+
+            if len(guess_letter) != 1:
+                print("You can only guess a single letter!")
+            elif guess_letter == "_" or guess_letter == "'":
+                print(f"Correct the letter/ Special Character {guess_letter} is in the Phrase")
+                self.phrase_obj.correct_guesses.append(guess_letter)
+                self.phrase_obj.guess(guess_letter, letters_dict[guess_letter])
+            elif not guess_letter.isalpha():
+                print("You can only guess letters!")
+            elif guess_letter in self.phrase_obj.correct_guesses:
+                print(f"You've already guessed {guess_letter}. Try again!")
+            elif guess_letter in self.phrase_obj.wrong_guesses:
+                print(f"You've already guessed {guess_letter}. Try again!")
+            elif guess_letter not in phrase_list:
+                print(f"Sorry {guess_letter} is not in the Phrase")
+                self.phrase_obj.wrong_guesses.append(guess_letter)
+                self.lives -= 1
+
+                if self.lives == 0:
+                    print("you have lost the game!")
+                    print(f"The word was\n{word_picked}")
+                    play_Game = False
+            else:
+                # guess_letter in phrase():
+                print(f"Correct the letter / Special Character {guess_letter} is in the Phrase")
+                self.phrase_obj.correct_guesses.append(guess_letter)
+
+                self.phrase_obj.guess(guess_letter, letters_dict[guess_letter])
+
+            print(f"You're left with {self.lives} live(s)")
+            for charcter in charcter_obj_list:
+                print(charcter.compile(), end=' ')
+
+
+            if self.won(letters):
+                print("\nCongratulations you have Won")
+                play_Game = False
