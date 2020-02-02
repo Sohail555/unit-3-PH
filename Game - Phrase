@@ -1,9 +1,0 @@
-from character import Character
-class Phrase(Character):
-    def __init__(self, phrase):
-        self.phrase = [Character(orignal) for orignal in phrase]
-
-
-    def check_characters(self):
-        return all(item in correct_guesses for item in self.phrase)
-
