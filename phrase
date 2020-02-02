@@ -1,0 +1,20 @@
+# Create your Phrase class logic here.
+from character import Character
+class Phrase:
+    def __init__(self, list_phrase):
+        self.phrase = [Character(orignal) for orignal in list_phrase]
+        self.correct_guesses = [' ', ]
+        self.wrong_guesses = []
+
+    #
+    def check_characters(self, letters):
+        if  letters == set(self.correct_guesses):
+            return True
+        else:
+            return False
+
+    # The function will take the correct guess and for every index for where it occurs in the phrase we will change it
+    # guess value to True at character level(character_match),
+    def guess(self, correct_guess, indx):
+        for ind in indx:#[0]
+            self.phrase[ind].change_value()
