@@ -1,16 +1,17 @@
+# Create your Character class logic in here.
 class Character:
     def __init__(self, orignal, was_guessed=False):
         self.orignal = orignal
         self.was_guessed = was_guessed
 
-    def character_match(self, guess):
-        if guess == self.original:
-            self.was_guessed = True
+    # This will match the guess orignal to chracters in the phrase, if matched output will be True
+    def change_value(self):
+        self.was_guessed = True
 
-    def complie(self):
-        if self.was_guessed:
-            return self.original
+    # This will compile an output with characters that our matched and output the correct guess with the character...
+    #...and those yet to be guessed with underscore and spaces will be printed as spaces (between wordds)
+    def compile(self):
+        if self.was_guessed or self.orignal==' ':
+            return self.orignal
         else:
             return "_"
-
-
